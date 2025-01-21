@@ -11,6 +11,7 @@ require('dotenv').config()
 const articleRoutes = require('../Routes/Article.routes');
 const presentationRoutes = require('../Routes/Presentation.routes');
 const factureRoutes = require('../Routes/Facture.routes');
+const cryptoRoutes = require('../Routes/Crypto.routes');
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -27,6 +28,7 @@ app.use((req, res, next) => {
 app.use('/api', articleRoutes);
 app.use('/api', presentationRoutes);
 app.use('/api', factureRoutes);
+app.use('/api', cryptoRoutes);
 
 // Server
 app.listen(process.env.PORT, () => {
