@@ -58,6 +58,9 @@ exports.requestLog = (req, res, next) => {
 exports.rotateLog = () => {
     const MAX_LOG_SIZE = 5 * 1024 * 1024; // 5MO
 
+    // Create log file if it doesn't exist
+    createFileIfDoesNotExist("request.log")
+
     const stats = fs.statSync('request.log');
 
     if (stats.size > MAX_LOG_SIZE) {
