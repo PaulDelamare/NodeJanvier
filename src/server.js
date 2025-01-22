@@ -12,12 +12,15 @@ const DailyRotateFile = require('winston-daily-rotate-file');
 const path = require('path');
 const helmet = require('helmet');
 require('dotenv').config()
+const Redis = require('ioredis');
+const redis = new Redis();
 
 // Routes Import
 const articleRoutes = require('../Routes/Article.routes');
 const presentationRoutes = require('../Routes/Presentation.routes');
 const factureRoutes = require('../Routes/Facture.routes');
 const cryptoRoutes = require('../Routes/Crypto.routes');
+const languageRoutes = require('../Routes/Language.routes');
 const { transporter } = require('../config/mail.config');
 
 
@@ -146,11 +149,19 @@ app.use((req, res, next) => {
     messageEmitter.emit('message_call', req.url);
 });
 
+redis.on('connect', () => {
+    console.log('Connected to Redis');
+});
+redis.on('error', (err) => {
+    console.error('Error connecting to Redis:', err);
+});
+
 // Routes
 app.use('/api', articleRoutes);
 app.use('/api', presentationRoutes);
 app.use('/api', factureRoutes);
 app.use('/api', cryptoRoutes);
+app.use('/api', languageRoutes);
 
 // Server
 app.listen(process.env.PORT, () => {
